@@ -1,0 +1,21 @@
+{
+  "name": "registration_and_login_with_mongodb",
+  "version": "1.0.0",
+  "description": "Registration and Login with MongoDB And CURD Operations",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon src/app.js -e js,hbs ",
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "sunny rathaur",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "hbs": "^4.2.0",
+    "mongoose": "^6.8.2",
+    "nodemon": "^2.0.20",
+    "validator": "^13.7.0"
+  }
+}
