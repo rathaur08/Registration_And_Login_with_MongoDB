@@ -2,9 +2,10 @@ const express = require("express");
 const path = require("path");
 const hbs = require("hbs");
 
+// DATA DB
 require("./db/conn");
-const Register=require("./models/registers");
-const {json} = require("express");
+const Register = require("./models/registers");
+const { json } = require("express");
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -13,7 +14,7 @@ const templatePath = path.join(__dirname, "../templates/views");
 const partialsPath = path.join(__dirname, "../templates/partials");
 
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({ extended: false }));
 
 // To set the view engine
 app.set("view engine", "hbs");
@@ -51,7 +52,7 @@ app.post("/register", async (req, res) => {
             const CreateRegister = await Registers.save();
             res.status(201).render("index");
         } else {
-            res.send("Password not matching")
+            res.send("Data not matching")
         }
     } catch (err) {
         res.status(400).send(err);
@@ -60,6 +61,24 @@ app.post("/register", async (req, res) => {
 
 app.get("/login", (req, res) => {
     res.render("login");
+});
+
+// ADD login validation check ------------->
+app.post("/login", async (req, res) => {
+    try {
+        const email = req.body.email;
+        const password = req.body.password;
+        // console.log(`${email} and password is ${password}`);
+
+        const useremail = await Register.findOne({ email: email });
+        if (useremail.password === password) {
+            res.status(201).render("index");
+        } else {
+            res.send("invalid login Details")
+        }
+    } catch (err) {
+        res.status(400).send("invalid login Details");
+    }
 });
 
 
