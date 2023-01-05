@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const hbs = require("hbs");
+const bcrypt = require("bcryptjs");
 
 // DATA DB
 require("./db/conn");
@@ -71,10 +72,14 @@ app.post("/login", async (req, res) => {
         // console.log(`${email} and password is ${password}`);
 
         const useremail = await Register.findOne({ email: email });
-        if (useremail.password === password) {
+
+        // ADD Login Form with Validation and BcryptJS---------------->
+        const passwordMatch = await bcrypt.compare(password, useremail.password);
+
+        if (passwordMatch) {
             res.status(201).render("index");
         } else {
-            res.send("invalid login Details")
+            res.send("invalid password Details")
         }
     } catch (err) {
         res.status(400).send("invalid login Details");
