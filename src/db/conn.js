@@ -4,5 +4,5 @@ const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 mongoose.connect("mongodb://localhost:27017/registration-login",{
 useNewUrlParser:true, useUnifiedTopology:true, useUnifiedTopology:true})
-.then( ()=> console.log("Connection is Successfull..."))
-.catch( (err) => console.log("Your Connection Error is -: " + err));
+.then( ()=> console.log("Mongoose Connection is Successfull..."))
+.catch( (err) => console.log("Your Mongoose Connection Error is -: " + err));
