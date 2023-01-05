@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const validator = require("validator");
+const bcrypt = require("bcryptjs");
 
 // schema
 // A mongoose schema defines the structure of the document,
@@ -46,6 +46,17 @@ const employeSchema = new mongoose.Schema({
     }
 });
 
+//  ADD function Secure Password using BcryptJS in Nodejs ------------->
+employeSchema.pre("save", async function(next){
+    if(this.isModified("password")){
+        console.log(`the current password is ${this.password}`);
+        this.password = await bcrypt.hash(this.password, 10);
+        console.log(`the current password is ${this.password}`);
+        this.confirmpassword = undefined;
+    }
+    next();
+})
+
 // creation a new collection 
 const Register = new mongoose.model("Register", employeSchema);
 
@@ -71,3 +82,15 @@ module.exports = Register;
 //     }
 // }
 // createDocument();
+
+//  ADD Secure Password using BcryptJS in Nodejs ------------->
+//  const bcrypt = require("bcryptjs");
+// const securePassword = async (password) => {
+//     const passwordHash = await bcrypt.hash(password, 10);
+//     console.log(passwordHash);
+
+//     // compare Passwords
+//     const passwordMatch = await bcrypt.compare(password, passwordHash);
+//     console.log(passwordMatch);
+// }
+// securePassword("Sunny");
