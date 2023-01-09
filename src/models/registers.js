@@ -49,9 +49,9 @@ const employeSchema = new mongoose.Schema({
 //  ADD function Secure Password using BcryptJS in Nodejs ------------->
 employeSchema.pre("save", async function(next){
     if(this.isModified("password")){
-        console.log(`the current password is ${this.password}`);
+        // console.log(`the current password is ${this.password}`);
         this.password = await bcrypt.hash(this.password, 10);
-        console.log(`the current password is ${this.password}`);
+        // console.log(`the current password is ${this.password}`);
         this.confirmpassword = undefined;
     }
     next();

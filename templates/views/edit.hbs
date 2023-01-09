@@ -1,0 +1,35 @@
+    {{!-- header code --}}
+    {{>header}}
+    {{!-- Navbar Code --}}
+    {{>navbar}}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 mt-5">
+                <h2 class="alert alert-primary text-center">UPdate Employee</h2>
+
+                <form method="post" action="/crud/update/{{data._id}}">
+                    <div class="mb-3">
+                        <label for="ename" class="form-label">Emp Name</label>
+                        <input type="text" class="form-control" id="ename" name="ename" placeholder="Enter Full Name"
+                            value="{{data.ename}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="department" class="form-label">Department</label>
+                        <input type="text" class="form-control" id="department" name="department" placeholder="Enter department"
+                        value="{{data.department}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="salary" class="form-label">Fees</label>
+                        <input type="text" class="form-control" id="salary" name="salary" placeholder="Enter Fees"
+                        value="{{data.salary}}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">UPdated</button>
+                    <button method="get" action="/crud" type="submit" class="btn btn-info">Back</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+{{!-- footer code --}}
+    {{>footer}}

@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 // DATA DB
 require("./db/conn");
 const Register = require("./models/registers");
-const { json } = require("express");
+const Employe =require("./models/addEmploye");
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -31,10 +31,67 @@ app.get("/about", (req, res) => {
     res.render("about");
 });
 
+// Create a  Employee --------------->
+app.post("/crud", async (req, res) => {
+    try {
+            const Employes = new Employe({
+                ename: req.body.ename,
+                department: req.body.department,
+                salary: req.body.salary
+            });
+            const CreateRegister = await Employes.save();
+            res.status(201).redirect("crud");
+    } catch (err) {
+        res.status(400).send(err);
+    }
+})
+// Get/Read a  Employee Data --------------->
+app.get("/crud", async (req, res) => {
+    try {
+            const result = await Employe.find();
+            // console.log(result);
+            res.status(201).render("crud", {docs: result});
+    } catch (err) {
+        res.status(400).send(err);
+    }
+})
+
+// Get/Edit a  Employee Data --------------->
+app.get("/crud/edit/:id", async (req, res) => {
+    try {
+            const result = await Employe.findById(req.params.id);
+            // console.log(result);
+            res.status(201).render("edit", {data: result});
+    } catch (err) {
+        res.status(400).send(err);
+    }
+})
+// Post/Update a  Employee Data --------------->
+app.post("/crud/update/:id", async (req, res) => {
+    try {
+            const result = await Employe.findByIdAndUpdate(req.params.id, req.body);
+            // console.log(result);
+            res.status(201).redirect("/crud");
+    } catch (err) {
+        res.status(400).send(err);
+    }
+})
+
+// Post/Delete a  Employee Data --------------->
+app.post("/crud/delete/:id", async (req, res) => {
+    try {
+            const result = await Employe.findByIdAndDelete(req.params.id);
+            // console.log(result);
+            res.status(201).redirect("/crud");
+    } catch (err) {
+        res.status(400).send(err);
+    }
+})
+// -----------------------------------------------------------------------
 app.get("/register", (req, res) => {
     res.render("register");
 });
-// Create a new Students --------------->
+//  Register new Employee --------------->
 app.post("/register", async (req, res) => {
     try {
         const password = req.body.password;
@@ -51,7 +108,7 @@ app.post("/register", async (req, res) => {
                 confirmpassword: cpassword
             });
             const CreateRegister = await Registers.save();
-            res.status(201).render("index");
+            res.status(201).render("index",{firstname});
         } else {
             res.send("Data not matching")
         }
